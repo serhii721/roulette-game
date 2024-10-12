@@ -5,17 +5,26 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public List<Player> players = new List<Player>();
-    private int winningNumber;
+    public Dictionary<int, List<PlayerBet>> allBets;
     public int casinoBalance = 0;
 
-    public void SpinRoulette()
+    private void Start()
     {
-        winningNumber = Random.Range(0, 10);
-        Debug.Log("Winning number: " + winningNumber);
-        CalculateResults();
+        allBets = new Dictionary<int, List<PlayerBet>>();
+        for (int i = 0; i < 10; ++i)
+            allBets[i] = new List<PlayerBet>();
     }
 
-    public void CalculateResults()
+    public void AddBet(Player player, int number, int amount)
+    {
+        if (allBets.ContainsKey(number))
+        {
+            allBets[number].Add(new PlayerBet { player = player, amount = amount });
+            Debug.Log($"{player.name} made a bet of {amount} on number {number}");
+        }
+    }
+
+    public void CalculateResults(int winningNumber)
     {
         int totalBetOnWinningNumber = 0;
         Dictionary<Player, int> winners = new Dictionary<Player, int>();
@@ -36,13 +45,13 @@ public class GameManager : MonoBehaviour
             {
                 int prize = casinoBalance * winner.Value / totalBetOnWinningNumber;
                 winner.Key.balance += prize;
-                Debug.Log($"{winner.Key.playerName} won {prize}");
+                Debug.Log($"{winner.Key.name} won {prize}");
             }
             casinoBalance = 0;
         }
         else
         {
-            Debug.Log("No bets on winning number. Casino wins all.");
+            //Debug.Log("No bets on winning number. Casino wins all.");
             foreach (Player player in players)
             {
                 foreach (var bet in player.bets)
@@ -57,4 +66,10 @@ public class GameManager : MonoBehaviour
             player.bets.Clear();
         }
     }
+}
+
+public class PlayerBet
+{
+    public Player player;
+    public int amount;
 }

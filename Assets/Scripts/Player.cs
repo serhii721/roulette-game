@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Player
 {
-    public string playerName;
+    public string name;
     public int balance;
     public Dictionary<int, int> bets = new Dictionary<int, int>(); // Roulette number and bet amount
 
-    public Player(string name, int initialBalance)
+    public Player(string namee, int initialBalance)
     {
-        playerName = name;
+        name = namee;
         balance = initialBalance;
     }
 
@@ -25,6 +25,6 @@ public class Player
             balance -= amount;
         }
         else
-            Debug.Log("Insufficient balance to place bet.");
+            Debug.Log("Insufficient balance to place bet");
     }
 }

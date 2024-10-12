@@ -6,7 +6,7 @@ public class Roulette : MonoBehaviour
 {
     public float spinSpeed = 1000f;
     public bool isSpinning = false;
-    private float spinTime = 5f;
+    private float spinTime = 2f;
 
     public void Spin()
     {
@@ -32,6 +32,6 @@ public class Roulette : MonoBehaviour
         int winningNumber = Random.Range(0, 10);
         Debug.Log("Winning number: " + winningNumber);
 
-        //FindObjectOfType<GameManager>().ProcessSpinResult(winningNumber);
+        FindObjectOfType<GameManager>().CalculateResults(winningNumber);
     }
 }
