@@ -9,27 +9,24 @@ public class BettingManager : MonoBehaviour
     public TextMeshProUGUI balanceText;
     public TextMeshProUGUI selectedNumberText;
     private Player currentPlayer;
-    private int number = -1;
+    private int selectedNumber = -1;
 
-    private void Start()
+    private void StartBetting(Player player)
     {
-        {
-            // TODO: specify name and balance
-            currentPlayer = new Player("Player1", 1000);
-            UpdateBalanceUI();
-            UpdateSelectedNumberUI();
-        }
+        currentPlayer = player;
+        UpdateBalanceUI();
+        UpdateSelectedNumberUI();
     }
 
     public void SelectBettingNumber(int n)
     {
-        number = n;
+        selectedNumber = n;
         UpdateSelectedNumberUI();
     }
 
     public void PlaceBet()
     {
-        if (number < 0)
+        if (selectedNumber < 0)
         {
             Debug.Log("Select number");
             return;
@@ -39,8 +36,8 @@ public class BettingManager : MonoBehaviour
         {
             if (currentPlayer.balance >= betAmount)
             {
-                currentPlayer.PlaceBet(number, betAmount);
-                FindObjectOfType<GameManager>().AddBet(currentPlayer, number, betAmount);
+                currentPlayer.PlaceBet(selectedNumber, betAmount);
+                FindObjectOfType<GameManager>().AddBet(currentPlayer, selectedNumber, betAmount);
                 UpdateBalanceUI();
             }
             else
@@ -52,14 +49,14 @@ public class BettingManager : MonoBehaviour
 
     private void UpdateSelectedNumberUI()
     {
-        if (number > -1)
-            selectedNumberText.text = "Selected number: " + number.ToString();
+        if (selectedNumber > -1)
+            selectedNumberText.text = $"Selected number: {selectedNumber.ToString()}";
         else
             selectedNumberText.text = "Selected number: ";
     }
 
     private void UpdateBalanceUI()
     {
-        balanceText.text = "Balance: " + currentPlayer.balance.ToString();
+        balanceText.text = $"Balance: {currentPlayer.balance.ToString()}";
     }
 }

@@ -8,23 +8,27 @@ public class Player
     public int balance;
     public Dictionary<int, int> bets = new Dictionary<int, int>(); // Roulette number and bet amount
 
-    public Player(string namee, int initialBalance)
+    public Player(string playerName, int initialBalance)
     {
-        name = namee;
+        name = playerName;
         balance = initialBalance;
+        for (int i = 0; i < 10; ++i)
+            bets[i] = 0;
     }
 
     public void PlaceBet(int number, int amount)
     {
         if (balance >= amount)
         {
-            if (bets.ContainsKey(number))
-                bets[number] += amount;
-            else
-                bets[number] = amount;
+            bets[number] = amount;
             balance -= amount;
         }
         else
             Debug.Log("Insufficient balance to place bet");
+    }
+
+    public void GainWinnings(int amount)
+    {
+        balance += amount;
     }
 }

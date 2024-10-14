@@ -30,7 +30,7 @@ public class Roulette : MonoBehaviour
         isSpinning = false;
 
         int winningNumber = Random.Range(0, 10);
-        Debug.Log("Winning number: " + winningNumber);
+        Debug.Log($"Winning number: {winningNumber}.");
 
         FindObjectOfType<GameManager>().CalculateResults(winningNumber);
     }
