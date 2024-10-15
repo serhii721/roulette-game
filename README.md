@@ -17,6 +17,12 @@ _It is written as a test assignment in Unity 2022 using C#._
 
 To run the application it is necessary to install [Unity 2022](https://unity.com/releases/editor/archive).
 
+## Screenshots
+
+![Main menu](https://raw.github.com/serhii721/roulette-game/screenshots/Screenshots/1.png "Main menu")
+![Betting screen](https://raw.github.com/serhii721/roulette-game/screenshots/Screenshots/2.png "Betting screen")
+![Roulette screen](https://raw.github.com/serhii721/roulette-game/screenshots/Screenshots/3.png "Roulette screen")
+
 ## Configuration
 
 In the settings, a user can:
