@@ -8,8 +8,15 @@ public class Roulette : MonoBehaviour
     public bool isSpinning = false;
     private float spinTime = 2f;
 
+    // Method is called when all bets are made player starts roulette spinning
     public void Spin()
     {
+        // Hiding spin button, showing bet button
+        UIManager IM = FindObjectOfType<UIManager>();
+        IM.ToggleBetButtonUI();
+        IM.HideSpinButtonUI();
+        IM.HideNextPlayerButtonUI();
+
         if (!isSpinning)
         {
             isSpinning = true;
@@ -19,6 +26,7 @@ public class Roulette : MonoBehaviour
 
     private IEnumerator SpinRoulette()
     {
+        // Roulette's spinning animation
         float elapsedTime = 0f;
         while (elapsedTime < spinTime)
         {
@@ -29,9 +37,11 @@ public class Roulette : MonoBehaviour
 
         isSpinning = false;
 
+        // Generating random winning number
         int winningNumber = Random.Range(0, 10);
         Debug.Log($"Winning number: {winningNumber}.");
 
+        // Calculating winners
         FindObjectOfType<GameManager>().CalculateResults(winningNumber);
     }
 }
