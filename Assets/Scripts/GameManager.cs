@@ -11,22 +11,39 @@ public class PlayerBet
 
 public class GameManager : MonoBehaviour
 {
-    public List<TMP_InputField> playerNames;
-    
     private List<Player> players = new List<Player>();
     private Dictionary<int, List<PlayerBet>> allBets = new Dictionary<int, List<PlayerBet>>();
+    private int currentPlayerIndex = 0;
+    private int numberOfPlayers;
 
     public int casinoBalance = 0;
 
-    private void StartGame(int playerNumber = 5)
+    // UI Elements
+    public List<TMP_InputField> playerNameInputs;
+    public TMP_InputField startBalanceInput;
+    public TMP_Dropdown numberOfPlayersDropdown;
+    public GameObject welcomeCanvas;
+    public GameObject bettingCanvas;
+
+    public void StartGame()
     {
+        // Intitializing values
+        numberOfPlayers = numberOfPlayersDropdown.value + 1;
+        int startBalance = int.Parse(startBalanceInput.text);
         // Adding players
-        for (int i = 0; i < playerNumber; ++i)
-            players.Add(new Player(playerNames[i].ToString(), 1000));
+        for (int i = 0; i < numberOfPlayers; ++i)
+            players.Add(new Player(playerNameInputs[i].text, startBalance));
         
         // Adding bets
         for (int i = 0; i < 10; ++i)
             allBets[i] = new List<PlayerBet>();
+
+        // Switching UI elements from starting screen to game screen
+        welcomeCanvas.SetActive(false);
+        bettingCanvas.SetActive(true);
+
+        // Starting betting
+        FindObjectOfType<BettingManager>().StartBetting(players[0]);
     }
 
     public void AddBet(Player player, int number, int amount)

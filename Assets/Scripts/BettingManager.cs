@@ -5,16 +5,19 @@ using TMPro;
 
 public class BettingManager : MonoBehaviour
 {
-    public TMP_InputField betAmountInput;
+    // UI Elements
+    public TextMeshProUGUI playerName;
     public TextMeshProUGUI balanceText;
     public TextMeshProUGUI selectedNumberText;
+    public TMP_InputField betAmountInput;
+
     private Player currentPlayer;
     private int selectedNumber = -1;
 
-    private void StartBetting(Player player)
+    public void StartBetting(Player player)
     {
         currentPlayer = player;
-        UpdateBalanceUI();
+        UpdatePlayerInfoUI();
         UpdateSelectedNumberUI();
     }
 
@@ -38,7 +41,7 @@ public class BettingManager : MonoBehaviour
             {
                 currentPlayer.PlaceBet(selectedNumber, betAmount);
                 FindObjectOfType<GameManager>().AddBet(currentPlayer, selectedNumber, betAmount);
-                UpdateBalanceUI();
+                UpdatePlayerInfoUI();
             }
             else
                 Debug.Log("Insufficient balance to place bet");
@@ -55,8 +58,9 @@ public class BettingManager : MonoBehaviour
             selectedNumberText.text = "Selected number: ";
     }
 
-    private void UpdateBalanceUI()
+    private void UpdatePlayerInfoUI()
     {
+        playerName.text = currentPlayer.name;
         balanceText.text = $"Balance: {currentPlayer.balance.ToString()}";
     }
 }
