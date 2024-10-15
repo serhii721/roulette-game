@@ -21,6 +21,7 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI balanceText;
     public TextMeshProUGUI casinoBalanceText;
     public TextMeshProUGUI selectedNumberText;
+    public TextMeshProUGUI logText;
     public TMP_InputField betAmountInput;
     public GameObject betButton;
     public GameObject nextPlayerButton;
@@ -69,17 +70,17 @@ public class UIManager : MonoBehaviour
         // Validating information
         if (!int.TryParse(minBetAmountInput.text, out int minBetAmount) || minBetAmount < 1)
         {
-            Debug.Log("Enter correct minimal bet amount.");
+            Log("Enter correct minimal bet amount.");
             return;
         }
         if (!int.TryParse(maxBetAmountInput.text, out int maxBetAmount) || maxBetAmount < 1 || maxBetAmount < minBetAmount)
         {
-            Debug.Log("Enter correct maximal bet amount.");
+            Log("Enter correct maximal bet amount.");
             return;
         }
         if (!int.TryParse(startBalanceInput.text, out int balance) || balance < 0 || balance < minBetAmount)
         {
-            Debug.Log("Enter correct starting balance greater than minimal bet amount.");
+            Log("Enter correct starting balance greater than minimal bet amount.");
             return;
         }
         // Switching UI elements from starting screen to game screen
@@ -125,6 +126,17 @@ public class UIManager : MonoBehaviour
         casinoBalanceText.text = $"Casino balance: ${balance}";
     }
 
+    public void Log(string s, bool toBeCleared = false)
+    {
+        if (!toBeCleared)
+        {
+            Debug.Log(s);
+            logText.text = logText.text + s + '\n';
+        }
+        else
+            logText.text = "";
+    }
+
     // Methods for showing and hiding buttons
     public void ToggleBetButtonUI()
     {
@@ -154,14 +166,14 @@ public class UIManager : MonoBehaviour
     // Methods for ending and restarting the game
     public void EndGame()
     {
-        Debug.Log("All players lost their money. The game ends.");
+        Log("All players lost their money. The game ends.");
         bettingCanvas.SetActive(false);
         restartCanvas.SetActive(true);
     }
 
     public void RestartGame()
     {
-        Debug.Log("Restarting game.");
+        Log("Restarting game.", true);
         restartCanvas.SetActive(false);
         welcomeCanvas.SetActive(true);
     }

@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviour
     private int selectedNumber;
     private int casinoBalance;
 
+    private string buffer; // Used for log information
+
     public void StartGame(int numberOfPlayers, int startingBalance, List<string> playerNames, int minBet, int maxBet)
     {
         // Initializing values
@@ -40,7 +42,7 @@ public class GameManager : MonoBehaviour
     {
         if (n < 0 || n > 9)
         {
-            Debug.Log("Incorrect number for selection");
+            IM.Log("Incorrect number for selection");
             return;
         }
 
@@ -54,37 +56,37 @@ public class GameManager : MonoBehaviour
         // Checking for correct selected number
         if (selectedNumber < 0)
         {
-            Debug.Log("Select number");
+            IM.Log("Select number");
             return;
         }
 
         // Checking for correct input of bet amount
         if (!int.TryParse(IM.betAmountInput.text, out int betAmount) || betAmount < 1)
         {
-            Debug.Log("Enter correct bet amount");
+            IM.Log("Enter correct bet amount");
             return;
         }
         if (betAmount < minBetAmount)
         {
-            Debug.Log($"Enter bet amount greater that minimal bet amount of {minBetAmount}");
+            IM.Log($"Enter bet amount greater that minimal bet amount of {minBetAmount}");
             return;
         }
         if (betAmount > maxBetAmount)
         {
-            Debug.Log($"Enter bet amount lesser that maximal bet amount of {maxBetAmount}");
+            IM.Log($"Enter bet amount lesser that maximal bet amount of {maxBetAmount}");
             return;
         }
 
         // Checking for sufficient player's balance
         if (getCurrentPlayer().balance < betAmount)
         {
-            Debug.Log("Insufficient balance to place bet");
+            IM.Log("Insufficient balance to place bet");
             return;
         }
         
         // 2. Placing bet
         getCurrentPlayer().PlaceBet(selectedNumber, betAmount);
-        Debug.Log($"Player \"{getCurrentPlayer().name}\" made a bet of ${betAmount} on number {selectedNumber}");
+        IM.Log($"Player \"{getCurrentPlayer().name}\" made a bet of ${betAmount} on number {selectedNumber}");
 
         // Updating UI
         selectedNumber = -1;
@@ -151,7 +153,7 @@ public class GameManager : MonoBehaviour
                 int amount = 0;
                 for (int i = 0; i < 10; ++i)
                     amount += player.bets[i];
-                Debug.Log($"Player \"{player.name}\" lost ${amount}.");
+                IM.Log($"Player \"{player.name}\" lost ${amount}.");
             }
         }
 
@@ -164,12 +166,12 @@ public class GameManager : MonoBehaviour
                 float winnerShare = (float)winner.Value / totalBetsOnWinningNumber;
                 int prize = (int)(totalBets * winnerShare);
                 winner.Key.GainWinnings(prize);
-                Debug.Log($"Player \"{winner.Key.name}\" won ${prize}.");
+                IM.Log($"Player \"{winner.Key.name}\" won ${prize}.");
             }
         }
         else
         {
-            Debug.Log($"No bets on winning number. Casino wins ${totalBets}.");
+            IM.Log($"No bets on winning number. Casino wins ${totalBets}.");
             casinoBalance += totalBets;
         }
 
@@ -179,7 +181,7 @@ public class GameManager : MonoBehaviour
         {
             if (players[i].balance < minBetAmount)
             {
-                Debug.Log($"Player \"{players[i].name}\" has not enough money to play on this table and is removed.");
+                IM.Log($"Player \"{players[i].name}\" has not enough money to play on this table and is removed.");
                 players.RemoveAt(i);
             }
         }
